@@ -7,8 +7,13 @@ python. I got it to a point where everything matched very nicely the results
 from Remi's Mathematica notebook, so I decided to create modules out of it so
 that I can use it from anywhere. See below:
 
+
+
 ##ApplyLOCI.py
 Script that runs the AlignImages and LOCI modules on the specified data. 
+The script uses command-line arguments and, by design, expects the PSF files to
+contain a string with "runXX" in it in order to process a given run number.
+
 To run it, simply type:
 
 python ApplyLOCI.py directory_to_PSFs [--run RunNumber]
