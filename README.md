@@ -24,7 +24,7 @@ For more information: python ApplyLOCI.py --help
 
 ##LOCI.py
 Actual LOCI algorithm. This runs much faster than the Mathematica notebook.
-This function takes for arguments:
+This function is called from within ApplyLOCI.py and takes for arguments:
  * input target image
  * input reference images (typically, 4, 9, or 25)
  * kwargs for specifying various parameters of the LOCI algorithm.
@@ -34,7 +34,7 @@ This function takes for arguments:
 ##AlignImages.py
 Cubic least-square minimization technique to align the reference images with the
 target image. This version also runs much faster than before.
-This function takes for arguments:
+This function is called from within ApplyLOCI.py and takes for arguments:
  * sizeImg: the size of the image (integer)
  * radius: the radius of the region to NOT use for the minimization
  * target: the image of the science target
