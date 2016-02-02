@@ -43,5 +43,3 @@ def align_images(dim, radius, reference, target):
     ref_aligned = results.x[2] * interp_ref(y-results.x[0], x-results.x[1])
 
     return ref_aligned
-
-
