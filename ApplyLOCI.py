@@ -1,4 +1,4 @@
-import alignImages
+import AlignImages
 import LOCI
 import numpy as np
 import pyfits
@@ -37,7 +37,7 @@ def process_run(nruns, **kwargs):
         print i+1, reffile[i]
         hdu=pyfits.open(reffile[i])
         refs[i]=hdu[0].data
-        refs_aligned[i]=alignImages.align_images(sizeImg,radius,refs[i],target)
+        refs_aligned[i]=AlignImages.align_images(sizeImg,radius,refs[i],target)
 
     unoccultedfile=glob.glob("*run"+str(nruns)+"_"+"*Unocculted*.fits")
     hdu=pyfits.open(unoccultedfile[0])
