@@ -1,5 +1,6 @@
 #!/usr/bin/python
-# Filename: alignImages.py
+# Filename: AlignImages.py
+
 import numpy as np
 import scipy.interpolate as scint
 import scipy.optimize as scopt
@@ -10,7 +11,7 @@ def interpolate(c, dim, tar, interp1, interp2):
     ref=np.zeros( [dim,dim] )
     mas=np.zeros( [dim,dim] )
  
-    # Much faster than double FOR loop below:
+    # Much faster than previous double FOR loop:
     mas = interp2(y-c[0], x-c[1])
     ref = c[2]*interp1(y-c[0], x-c[1])
 
