@@ -12,15 +12,13 @@ that I can use it from anywhere. See below:
 ##ApplyLOCI.py
 Script that runs the AlignImages and LOCI modules on the specified data. 
 The script uses command-line arguments and, by design, expects the PSF files to
-contain a string with "runXX" in it in order to process a given run number.
+contain a string with "runXX" in it in order to process a given run number. By
+default, it will process all the runs in the specified directory, unless the
+--run flag is used.
 
-To run it, simply type:
+To run it, simply type: python ApplyLOCI.py directory_to_PSFs [--run RunNumber]
 
-python ApplyLOCI.py directory_to_PSFs [--run RunNumber]
-
-For more information:
-
-python ApplyLOCI.py --help
+For more information: python ApplyLOCI.py --help
 
 
 
