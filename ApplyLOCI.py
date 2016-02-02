@@ -1,3 +1,16 @@
+#################################################################
+# WHAT: -script to apply LOCI on a set of reference images and a
+#        science target.
+#       - requires the LOCI.py and AlignImages.py modules (see
+#         Github/Skyhawk172).
+#
+# HOW: python ApplyLOCI.py --help
+#
+# WHO: C-P Lajoie - STScI
+#
+# WHEN: February 2016
+#################################################################
+
 import AlignImages
 import LOCI
 import numpy as np
@@ -58,14 +71,14 @@ def process_run(nruns, **kwargs):
 
 
 
-#####################################################################
+#-----------------------------------#
 # MAIN Method
-#####################################################################
+#-----------------------------------#
 if __name__ == "__main__":
 
-    #-------------------------------
+    #-------------------------------#
     # COMMAND-LINE ARGUMENT PARSER:
-    #-------------------------------
+    #-------------------------------#
     parser = argparse.ArgumentParser(description="Apply LOCI to sets of PSFs")
 
     parser.add_argument("dir"      , type=str, help="Input directory (absolute or relative)")
@@ -77,9 +90,9 @@ if __name__ == "__main__":
     directory = args.dir
 
 
-    #----------------------------
+    #-------------------------------#
     # DEFAULT IMAGE PARAMETERS:
-    #----------------------------
+    #-------------------------------#
     if "MIRI" in directory:
         sizeImg  = 64   if args.imgSize==None else args.imgSize
         radius   = 25   if args.rad    ==None else args.rad
@@ -97,10 +110,9 @@ if __name__ == "__main__":
             pixelSize= 0.065 if args.pixSize==None else args.pixSize
 
 
-
-    #----------------------------
+    #-------------------------------#
     #ARGUMETS FOR LOCI ALGORITHM:
-    #----------------------------
+    #-------------------------------#
     g  = 1.75
     NA = 400
     dr = 1.25
@@ -116,9 +128,9 @@ if __name__ == "__main__":
             "rstart":rstart, "rend":rend, "RegNum":RegNum, "radialShiftBetweenSandO":radialShiftBetweenSandO}
 
 
-    #----------------------------
+    #-------------------------------#
     # RUN LOCI ON EACH RUN:
-    #----------------------------
+    #-------------------------------#
     os.chdir(directory)
     if args.run == "all":
         nruns = len(glob.glob("*ScienceTarget*.fits"))
