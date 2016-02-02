@@ -29,7 +29,7 @@ For more information: python ApplyLOCI.py --help
 Actual LOCI algorithm. This runs much faster than the Mathematica notebook.
 This function is called from within ApplyLOCI.py and takes for arguments:
  * input target image
- * input reference images (typically, 4, 9, or 25)
+ * list of input reference images (typically, 4, 9, or 25)
  * kwargs for specifying various parameters of the LOCI algorithm.
 
 
