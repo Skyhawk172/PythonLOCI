@@ -3,7 +3,7 @@ import LOCI
 import numpy as np
 import pyfits
 import argparse
-import os, glob
+import os, glob, sys
 
 
 def makeHeader(hdr, directory, target, references, LOCIargs ):
@@ -68,9 +68,11 @@ if __name__ == "__main__":
     #-------------------------------
     parser = argparse.ArgumentParser(description="Apply LOCI to sets of PSFs")
 
-    parser.add_argument("dir"   , type=str, help="Input directory (absolute or relative)")
-    parser.add_argument("--run" , default="all", help="run number (default = all)")
-
+    parser.add_argument("dir"      , type=str, help="Input directory (absolute or relative)")
+    parser.add_argument("--run"    , default="all", help="run number (default = all)")
+    parser.add_argument("--imgSize", help="image size (pixels)")
+    parser.add_argument("--rad"    , help="radius to ignore for alignment function (pixels)")
+    parser.add_argument("--pixSize", help="instrument's pixel size (arcseconds)")
     args = parser.parse_args()
     directory = args.dir
 
@@ -79,20 +81,21 @@ if __name__ == "__main__":
     # DEFAULT IMAGE PARAMETERS:
     #----------------------------
     if "MIRI" in directory:
-        sizeImg  = 64
-        radius   = 25
-        pixelSize= 0.11 #arcseconds
+        sizeImg  = 64   if args.imgSize==None else args.imgSize
+        radius   = 25   if args.rad    ==None else args.rad
+        pixelSize= 0.11 if args.pixSize==None else args.pixSize 
     elif "NIRCam" in directory:
         if "F210" in directory:
             print "NIRCam Short Wavelength"
-            sizeImg  = 222 
-            radius   = 70 
-            pixelSize= 0.032 #0.065 #arcseconds
+            sizeImg  = 222   if args.imgSize==None else args.imgSize
+            radius   = 70    if args.rad    ==None else args.rad
+            pixelSize= 0.032 if args.pixSize==None else args.pixSize
         else:
             print "NIRCam Long Wavelength"
-            sizeImg  = 109 
-            radius   = 25 
-            pixelSize= 0.065 #arcseconds
+            sizeImg  = 109   if args.imgSize==None else args.imgSize
+            radius   = 25    if args.rad    ==None else args.rad
+            pixelSize= 0.065 if args.pixSize==None else args.pixSize
+
 
 
     #----------------------------
