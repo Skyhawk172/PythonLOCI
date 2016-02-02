@@ -14,9 +14,12 @@ Script that runs the AlignImages and LOCI modules on the specified data.
 The script uses command-line arguments and, by design, expects the PSF files to
 contain a string with "runXX" in it in order to process a given run number. By
 default, it will process all the runs in the specified directory, unless the
---run flag is used.
+--run flag is used.  The user can also specify the image size, pixel size
+(arcseconds), and the radius of the image to ignore during the alignment.
 
-To run it, simply type: python ApplyLOCI.py directory_to_PSFs [--run RunNumber]
+Note also that this is somewhat custom built, especially when it comes to
+"finding" the files in the directory and/or determining the instrument/filter
+being used. The user might have to modify the code accordingly.
 
 For more information: python ApplyLOCI.py --help
 
