@@ -1,5 +1,21 @@
 #!/usr/bin/python
 # Filename: LOCI.py
+
+#################################################################
+# WHAT: actual LOCI algorithm
+#       
+#       Github/Skyhawk172).
+#
+# HOW: to be used as a function call; arguments to pass are
+#      (1) target image (2) list of reference images, and 
+#      (3) LOCI-specific arguments (optional)
+#
+# WHO: C-P Lajoie - STScI
+#
+# WHEN: February 2016
+#################################################################
+
+
 import numpy as np
 
 def MakePolarCoordinates(TargetImage): 
@@ -98,7 +114,7 @@ def LOCI(Target, Reference, rin, dr, Deltar, Thetamin, DeltaPhi, radialShiftBetw
 
 
 # THIS IS A LITTERAL TRANSLATION FROM REMI'S MATHEMATICA CODE:
-def ApplyLOCI(Target,Reference, g, W, NA, dr,rstart, rend, radialShiftBetweenSandO, RegNum,CriterionNumber, Mu): 
+def ApplyLOCI(Target,Reference, W, g=1.75, NA=400, dr=1.25, rstart=0.5, rend=32, radialShiftBetweenSandO=0.0, RegNum=10**-9, CriterionNumber=np.inf, Mu=0.0): 
     LengthOfImage =  len(Target)
     Area = NA*np.pi*(W/2.)**2
     DeltaR = np.sqrt(Area*g)
