@@ -19,14 +19,14 @@ import argparse
 import os, glob, sys
 
 
-def makeHeader(hdr, directory, target, references, LOCIargs ):
+def makeHeader(hdr, directory, target, references, **kwargs):
     # To keep track in FITS header of what files were used for LOCI    
     hdr.add_history(os.getcwd())
     hdr.add_history(target[0])
     for iref in references:
         hdr.add_history(iref)
         
-    for key, value in LOCIargs.iteritems():
+    for key, value in kwargs.iteritems():
         hdr.add_history(key+"="+str(value))
 
     return hdr
@@ -61,7 +61,7 @@ def process_run(nruns, **kwargs):
 
     hdu = pyfits.PrimaryHDU(finalImage)
     hdr = hdu.header
-    header = makeHeader(hdr, directory, targetfile, reffile, LOCIargs)
+    header = makeHeader(hdr, directory, targetfile, reffile, **kwargs)#LOCIargs)
     outname = "Map_LOCI_run%d.fits" %nruns
     hdu.writeto(outname,clobber=True)
     print "Output file:", outname
