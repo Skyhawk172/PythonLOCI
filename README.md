@@ -8,7 +8,7 @@ numerous reference images (dithered; typically 9), and (3) an unocculted image
 (i.e. no coronagraph mask, for normalization purposes).  The code aligns all the
 reference images with the target image and then applies the LOCI algorithm to
 the set of images to create a "synthetic" reference image that optimizes the PSF
-subtraction.
+subtraction.	  
 
 
 ## alignImage.ipynb 
@@ -35,6 +35,7 @@ filenames:
 * PSF_1065_run7_ScienceTarget_204.fits 
 * PSF_1140_run3_Unocculted_204.fits
 * PSF_210_run1_Reference_dither1_136.fits
+
 The user may need to customize these strings by simply searching for "glob"
 statements.
 
