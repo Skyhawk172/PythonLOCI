@@ -3,6 +3,14 @@
 My conversion of a Mathematica notebook to Python for the LOCI and alignment
 algorithms.
 
+The basic idea here is that the user provides (1) one science target image, (2)
+numerous reference images (dithered; typically 9), and (3) an unocculted image
+(i.e. no coronagraph mask, for normalization purposes).  The code aligns all the
+reference images with the target image and then applies the LOCI algorithm to
+the set of images to create a "synthetic" reference image that optimizes the PSF
+subtraction.
+
+
 ## alignImage.ipynb 
 
 This ipython notebook was used for development of the LOCI algorithm in
