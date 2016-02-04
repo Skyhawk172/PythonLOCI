@@ -20,13 +20,18 @@ other two are called from within it.
 
 The script uses command-line arguments and, by design, expects the PSF
 files to contain a string with "runXX" in it in order to process a given run
-number. By default, it will process all the runs in the specified directory,
-unless the --run flag is used. The command-line arguments are:
+number. Moreover, the script expect the target image filename to contain the
+string "ScienceTarget", the reference images to contain the string "dither", and
+the unocculted image to contain the string "Unocculted". The user may need to
+customize these strings by simply searching for "glob" statements.
 
-** --run: run number (optional; default: all)
-** --imgSize: size of images in pixels (default: 64) 
-** --pixSize: instrument's pixel size in arcseconds (instrument dependent)
-** --rad: radius from center of image to ignore during the alignment routine.
+By default, it will process all the runs in the specified directory,
+unless the --run flag is used. The optional command-line arguments are:
+
+* --run: run number (optional; default: all)
+* --imgSize: size of images in pixels (default: 64) 
+* --pixSize: instrument's pixel size in arcseconds (instrument dependent)
+* --rad: radius from center of image to ignore during the alignment routine.
 
 Note also that this script is somewhat custom built, especially when it comes to
 "finding" the files in the directory and/or determining the instrument/filter
