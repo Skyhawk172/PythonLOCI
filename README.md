@@ -42,9 +42,9 @@ statements.
 By default, it will process all the runs in the specified directory,
 unless the --run flag is used. The command-line arguments are (-- for optional):
 
-* dir: full path or relative path to directory containing FITS files.
+* dir: full path or relative path to directory containing FITS files. 
 * --run: run number (default: all)
-* --imgSize: size of images in pixels (default: 64) 
+* --imgSize: size of images in pixels (instrument dependent) 
 * --pixSize: instrument's pixel size in arcseconds (instrument dependent)
 * --rad: radius from center of image to ignore during the alignment routine (instrument dependent).
 
