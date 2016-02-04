@@ -40,8 +40,9 @@ The user may need to customize these strings by simply searching for "glob"
 statements.
 
 By default, it will process all the runs in the specified directory,
-unless the --run flag is used. The optional command-line arguments are:
+unless the --run flag is used. The command-line arguments are (-- for optional):
 
+* dir: full path or relative path to directory containing FITS files.
 * --run: run number (default: all)
 * --imgSize: size of images in pixels (default: 64) 
 * --pixSize: instrument's pixel size in arcseconds (instrument dependent)
