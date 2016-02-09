@@ -36,7 +36,7 @@ def makeHeader(hdr, directory, target, references, **kwargs):
 
 def process_run(nruns, **kwargs):
     info= '\nStarting LOCI run %d -->' %nruns
-    print info,
+    print info
 
     targetfile= glob.glob("*run"+str(nruns)+"_"+"*ScienceTarget*"+"*.fits")
 
@@ -118,18 +118,18 @@ if __name__ == "__main__":
     #-------------------------------#
     # DEFAULT IMAGE PARAMETERS:
     #-------------------------------#
-    if "MIRI" in directory:
+    if "Results/MIRI" in directory:
         sizeImg  = 64   if args.imgSize==None else args.imgSize
         radius   = 25   if args.rad    ==None else args.rad
         pixelSize= 0.11 if args.pixSize==None else args.pixSize 
-    elif "NIRCam" in directory:
-        if "F210" in directory:
-            print "NIRCam Short Wavelength"
+    elif "Results/NIRCam" in directory:
+        if "F210M" in directory:
+            print "\nNIRCam Short Wavelength"
             sizeImg  = 222   if args.imgSize==None else args.imgSize
             radius   = 70    if args.rad    ==None else args.rad
             pixelSize= 0.032 if args.pixSize==None else args.pixSize
         else:
-            print "NIRCam Long Wavelength"
+            print "\nNIRCam Long Wavelength"
             sizeImg  = 109   if args.imgSize==None else args.imgSize
             radius   = 25    if args.rad    ==None else args.rad
             pixelSize= 0.065 if args.pixSize==None else args.pixSize
