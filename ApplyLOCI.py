@@ -1,6 +1,8 @@
 #################################################################
 # WHAT: -script to apply LOCI on a set of reference images and a
-#        science target.
+#        science target. Also applies a classical subtraction
+#        between the science target and another reference target.
+#
 #       - requires the LOCI.py and AlignImages.py modules (see
 #         Github/Skyhawk172).
 #
@@ -36,8 +38,10 @@ def process_run(nruns, **kwargs):
     info= '\nStarting LOCI run %d -->' %nruns
     print info,
 
-    targetfile=glob.glob("*run"+str(nruns)+"_"+"*ScienceTarget*"+"*.fits")
+    targetfile= glob.glob("*run"+str(nruns)+"_"+"*ScienceTarget*"+"*.fits")
 
+
+    # APPLY LOCI FIRST:
     hdu=pyfits.open(targetfile[0])
     target=hdu[0].data
 
@@ -65,6 +69,27 @@ def process_run(nruns, **kwargs):
     outname = "Map_LOCI_run%d.fits" %nruns
     hdu.writeto(outname,clobber=True)
     print "Output file:", outname
+
+
+
+    # APPLY CLASSICAL SUBTRACTION:
+    reffile = glob.glob("*run"+str(nruns)+"_"+"*ReferenceTarget*"+"*.fits")
+    hdu=pyfits.open(reffile[0])
+    reference=hdu[0].data
+
+    refaligned = AlignImages.align_images(sizeImg,radius,reference,target)
+
+    finalImage=target-refaligned
+    finalImage=finalImage/np.max(unocculted)
+
+    hdu = pyfits.PrimaryHDU(finalImage)
+    hdr = hdu.header
+    header = makeHeader(hdr, directory, targetfile, reffile, **kwargs)#LOCIargs)
+    outname = "Map_CLAS_run%d.fits" %nruns
+    hdu.writeto(outname,clobber=True)
+    print "Output file:", outname
+
+
 
     return
 
