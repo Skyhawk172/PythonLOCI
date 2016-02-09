@@ -35,6 +35,7 @@ filenames:
 * PSF_1065_run7_ScienceTarget_204.fits 
 * PSF_1140_run3_Unocculted_204.fits
 * PSF_210_run1_Reference_dither1_136.fits
+* PSF_1065_run2_ReferenceTarget_204.fits
 
 The user may need to customize these strings by simply searching for "glob"
 statements.
@@ -51,6 +52,12 @@ unless the --run flag is used. The command-line arguments are (-- for optional):
 Note also that this script is somewhat custom built, especially when it comes to
 "finding" the files in the directory and/or determining the instrument/filter
 being used. The user might have to modify the code accordingly. 
+
+The script outputs the LOCI contrast maps as Map_LOCI_runXX.fits.
+
+For comparison purposes, the script also produces contrast maps using the
+Classical Subtraction with a reference target. The outputs are labelled as
+Map_CLAS_runXX.fits.
 
 For more information: python ApplyLOCI.py --help
 
