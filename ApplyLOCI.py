@@ -108,9 +108,9 @@ if __name__ == "__main__":
 
     parser.add_argument("dir"      , type=str, help="Input directory (absolute or relative)")
     parser.add_argument("--run"    , default="all", help="run number (default = all)")
-    parser.add_argument("--imgSize", help="image size (pixels)")
-    parser.add_argument("--rad"    , help="radius to ignore for alignment function (pixels)")
-    parser.add_argument("--pixSize", help="instrument's pixel size (arcseconds)")
+    parser.add_argument("--imgSize", type=int, help="image size (pixels)")
+    parser.add_argument("--rad"    , type=int, help="radius to ignore for alignment function (pixels)")
+    parser.add_argument("--pixSize", type=int, help="instrument's pixel size (arcseconds)")
     args = parser.parse_args()
     directory = args.dir
 
