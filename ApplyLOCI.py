@@ -19,6 +19,7 @@ import numpy as np
 import pyfits
 import argparse
 import os, glob, sys
+import matplotlib.pyplot as plt
 
 
 def makeHeader(hdr, directory, target, references, **kwargs):
@@ -34,14 +35,16 @@ def makeHeader(hdr, directory, target, references, **kwargs):
     return hdr
 
 
-def process_run(nruns, **kwargs):
-    info= '\nStarting LOCI run %d -->' %nruns
+def process_run(nruns, mask, **kwargs):
+    info= '\nStarting LOCI run %02d -->' %nruns
     print info
 
     targetfile= glob.glob("*run"+str(nruns)+"_"+"*ScienceTarget*"+"*.fits")
 
 
+    #------------------------------
     # APPLY LOCI FIRST:
+    #------------------------------
     hdu=pyfits.open(targetfile[0])
     target=hdu[0].data
 
@@ -54,38 +57,38 @@ def process_run(nruns, **kwargs):
         print i+1, reffile[i]
         hdu=pyfits.open(reffile[i])
         refs[i]=hdu[0].data
-        refs_aligned[i]=AlignImages.align_images(sizeImg,radius,refs[i],target)
+        refs_aligned[i]=AlignImages.align_images(sizeImg, mask, refs[i], target)
 
-    unoccultedfile=glob.glob("*run"+str(nruns)+"_"+"*Unocculted*.fits")
-    hdu=pyfits.open(unoccultedfile[0])
-    unocculted=hdu[0].data
+    #unoccultedfile=glob.glob("*run"+str(nruns)+"_"+"*Unocculted*.fits")
+    #hdu=pyfits.open(unoccultedfile[0])
+    #unocculted=hdu[0].data
 
     finalImage=LOCI.ApplyLOCI(target, refs_aligned, **kwargs)
-    finalImage=finalImage/np.max(unocculted)
 
     hdu = pyfits.PrimaryHDU(finalImage)
     hdr = hdu.header
     header = makeHeader(hdr, directory, targetfile, reffile, **kwargs)#LOCIargs)
-    outname = "Map_LOCI_run%d.fits" %nruns
+    outname = "Map_LOCI_run%02d.fits" %nruns
     hdu.writeto(outname,clobber=True)
     print "Output file:", outname
 
 
 
+    #------------------------------
     # APPLY CLASSICAL SUBTRACTION:
+    #------------------------------
     reffile = glob.glob("*run"+str(nruns)+"_"+"*ReferenceTarget*"+"*.fits")
     hdu=pyfits.open(reffile[0])
     reference=hdu[0].data
 
-    refaligned = AlignImages.align_images(sizeImg,radius,reference,target)
+    refaligned=AlignImages.align_images(sizeImg, mask, reference, target)
 
     finalImage=target-refaligned
-    finalImage=finalImage/np.max(unocculted)
 
     hdu = pyfits.PrimaryHDU(finalImage)
     hdr = hdu.header
     header = makeHeader(hdr, directory, targetfile, reffile, **kwargs)#LOCIargs)
-    outname = "Map_CLAS_run%d.fits" %nruns
+    outname = "Map_CLAS_run%02d.fits" %nruns
     hdu.writeto(outname,clobber=True)
     print "Output file:", outname
 
@@ -126,17 +129,30 @@ if __name__ == "__main__":
         if "F210M" in directory:
             print "\nNIRCam Short Wavelength"
             sizeImg  = 222   if args.imgSize==None else args.imgSize
-            radius   = 70    if args.rad    ==None else args.rad
+            radius   = 75    if args.rad    ==None else args.rad
             pixelSize= 0.032 if args.pixSize==None else args.pixSize
         else:
             print "\nNIRCam Long Wavelength"
             sizeImg  = 109   if args.imgSize==None else args.imgSize
-            radius   = 25    if args.rad    ==None else args.rad
+            radius   = 40    if args.rad    ==None else args.rad
             pixelSize= 0.065 if args.pixSize==None else args.pixSize
 
 
+    # MAKE ALIGNMENT MASK FOR EACH CORON. CONFIGURATION:
+    xmid = sizeImg/2 
+    ymid = sizeImg/2   
+
+    mask = np.array([ [0. if (np.sqrt( (i-xmid)**2 + (j-ymid)**2) < radius) else 1. for i in xrange(sizeImg)] for j in xrange(sizeImg)])
+    if "MIRI" in directory: 
+        mask[ymid-4:ymid+5, :] = 0.
+        mask[:, xmid-4:xmid+5] = 0.
+    if "MASKSWB" in directory: mask[ymid-8:ymid+9, :] = 0.
+    if "MASKLWB" in directory: mask[ymid-8:ymid+9, :] = 0.
+
+    plt.imshow(mask)
+    raw_input()
     #-------------------------------#
-    #ARGUMETS FOR LOCI ALGORITHM:
+    #ARGUMENTS FOR LOCI ALGORITHM:
     #-------------------------------#
     g  = 1.75
     NA = 400
@@ -153,6 +169,7 @@ if __name__ == "__main__":
             "rstart":rstart, "rend":rend, "RegNum":RegNum, "radialShiftBetweenSandO":radialShiftBetweenSandO}
 
 
+
     #-------------------------------#
     # RUN LOCI ON EACH RUN:
     #-------------------------------#
@@ -160,11 +177,11 @@ if __name__ == "__main__":
     if args.run == "all":
         nruns = len(glob.glob("*ScienceTarget*.fits"))
         for irun in xrange(1, nruns+1):
-            process_run(irun, **LOCIargs)
+            process_run(irun, mask, **LOCIargs)
 
     else:
         nruns = int(args.run)
-        process_run(nruns, **LOCIargs)
+        process_run(nruns, mask, **LOCIargs)
         
 
 

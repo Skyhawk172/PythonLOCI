@@ -18,15 +18,9 @@ def interpolate(c, dim, tar, interp1, interp2):
     return np.log10( np.sum( ((ref-tar)*mas)**2 ) )
 
 
-def align_images(dim, radius, reference, target):
-    mask = np.ones( [dim,dim] )
+def align_images(dim, mask, reference, target):
     x    = np.arange(0,dim)
     y    = np.arange(0,dim)
-    xmid = dim/2 
-    ymid = dim/2     
-    
-    #binary mask centered on (xmid, ymid): 0 within "radius", 1 outside
-    mask = np.array([ [0. if (np.sqrt( (i-xmid)**2 + (j-ymid)**2) < radius) else 1. for i in xrange(dim)] for j in xrange(dim)])
 
     alpha = 0.0
     beta  = 0.0
